@@ -1,70 +1,74 @@
-# Getting Started with Create React App
+# Project Name: Can of Books
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Author**: Wesam Alqawasmeh, Haia Al Lawansah
+**Version**: 1.0.0 (increment the patch/fix version number if you make more commits past your first submission)
 
-## Available Scripts
+## Overview
+<!-- Provide a high level overview of what this application is and why you are building it, beyond the fact that it's an assignment for this class. (i.e. What's your problem domain?) -->
 
-In the project directory, you can run:
+- this website created to track what books have impacted you, and what's recommended to read next.
 
-### `npm start`
+## Getting Started
+<!-- What are the steps that a user must take in order to build this app on their own machine and get it running? -->
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Architecture
+<!-- Provide a detailed description of the application design. What technologies (languages, libraries, etc) you're using, and any other relevant design information. -->
+can-of-books-front-end (repository)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+├──public
 
-### `npm test`
+├──src
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+│  ├── App.js
 
-### `npm run build`
+|  ├── BestBooks.js
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+│  ├── Footer.js
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+│  ├── Header.js
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+│  ├── index.js
 
-### `npm run eject`
+|  ├── Login.js
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+|  ├── LoginButton.js
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+|  ├── LogoutButton.js
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+|  ├── LoginForm.js
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+|  ├── Profile.js
 
-## Learn More
+├── .env
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+├── .gitignore
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+├── package-lock.json
 
-### Code Splitting
+├── package.json
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+├── README.md
 
-### Analyzing the Bundle Size
+## Change Log
+<!-- Use this area to document the iterative changes made to your application as each feature is successfully implemented. Use time stamps. Here's an example:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+01-01-2001 4:59pm - Application now has a fully-functional express server, with a GET route for the location resource. -->
+19/9/2021 8:00pm pplication now has a fully-functional express server, with a GET route for the location resource
 
-### Making a Progressive Web App
+## Estimates
+<!-- See below -->
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Credit and Collaborations
+<!-- Give credit (and a link) to other people or resources that helped you build this application. -->
+https://github.com/Wesam-Alqawasmeh/301-react-cheatsheet 
+------------------------------------------------------------------
 
-### Advanced Configuration
+Name of feature: __________Show off those books on the shelf!______________________
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Estimate of time needed to complete: __2 hours___
 
-### Deployment
+Start time: __4 pm___
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Finish time: __7:30 pm___
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Actual time needed to complete: ___3:30 hours__
