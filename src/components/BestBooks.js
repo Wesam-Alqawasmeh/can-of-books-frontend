@@ -1,29 +1,15 @@
-import axios from "axios";
+
 import React, { Component } from "react";
 import { Carousel,Alert } from "react-bootstrap";
 
 class BestBooks extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: [],
-    };
-  }
-
-  componentDidMount = () => {
-    axios.get(`${process.env.REACT_APP_BACKEND_SERVER}/books`).then((res) => {
-      this.setState({
-        data: res.data,
-      });
-    });
-  };
-
+  
   render() {
     return (
       <>
-        {this.state.data.length > 0 && (
+        {this.props.data.length > 0 && (
           <Carousel fade style={{width:"800px", height:"auto", margin:"50px auto"}}>
-            {this.state.data.map((item) => {
+            {this.props.data.map((item) => {
               return (
                 <Carousel.Item>
                   <img
@@ -43,7 +29,7 @@ class BestBooks extends Component {
           </Carousel>
         )}
 
-        {this.state.data.length === 0 && (
+        {this.props.data.length === 0 && (
           <Alert variant={'warning'}>
           book collection is empty!!
         </Alert>
