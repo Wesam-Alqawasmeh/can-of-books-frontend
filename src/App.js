@@ -20,7 +20,7 @@ class App extends Component {
       isError: false,
     };
   }
-
+//******************************* GET *************************************
   componentDidMount = () => {
     axios.get(`${process.env.REACT_APP_BACKEND_SERVER}/books`).then((res) => {
       this.setState({
@@ -28,6 +28,8 @@ class App extends Component {
       });
     });
   };
+
+//******************************* Post *************************************
 
   handleTilte = (e) => {
     this.setState({
@@ -78,6 +80,32 @@ class App extends Component {
       });
   };
 
+//******************************* Delete *************************************
+
+  handleDelete = (id) => {
+    let bookId = id;
+    let config = {
+      method: "DELETE",
+      baseURL: process.env.REACT_APP_BACKEND_SERVER,
+      url: `/books/${bookId}`,
+    };
+
+    axios(config)
+      .then((res) => {
+        this.setState({
+          data: res.data,
+        });
+      })
+      .catch((error) => {
+        this.setState({
+          error: error,
+          isError: true,
+        });
+      });
+  };
+
+//******************************* Render *************************************
+
   render() {
     return (
       <>
@@ -89,12 +117,10 @@ class App extends Component {
           handleStatus={this.handleStatus}
           handleSubmit={this.handleSubmit}
         />
-        {this.state.isError && 
-          <Alert  variant='primary'>
-            {this.state.error}
-          </Alert>
-        }
-        <BestBooks data={this.state.data} />
+        {this.state.isError && (
+          <Alert variant="primary">{this.state.error}</Alert>
+        )}
+        <BestBooks data={this.state.data} handleDelete={this.handleDelete} />
         <Footer />
       </>
     );
