@@ -126,8 +126,7 @@ class App extends Component {
     });
   };
 
-  handleUpdate = (e) => {
-    e.preventDefault();
+  handleUpdate = () => {
     let bookId = this.state.id;
     let config = {
       method: "PUT",
@@ -146,7 +145,7 @@ class App extends Component {
         this.setState({
           data: res.data,
         });
-        console.log('respone works')
+        console.log("respone works");
       })
       .catch((error) => {
         this.setState({
