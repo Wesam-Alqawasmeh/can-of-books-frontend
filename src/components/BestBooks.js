@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Carousel, Alert, Button } from "react-bootstrap";
 
+
 class BestBooks extends Component {
   render() {
     return (
@@ -31,6 +32,9 @@ class BestBooks extends Component {
                       onClick={() => this.props.handleDelete(item._id)}
                     >
                       Delete Book
+                    </Button>
+                    <Button onClick={() => this.props.modalHandle(item.title, item.description, item.status, item.email, item._id)}>
+                      Update Book
                     </Button>
                   </Carousel.Caption>
                 </Carousel.Item>
