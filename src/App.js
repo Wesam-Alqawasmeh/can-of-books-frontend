@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import BookForm from "./components/BookForm";
 import { Alert } from "react-bootstrap";
 import axios from "axios";
+import UpdateModal from "./components/UpdateModal";
 
 class App extends Component {
   constructor(props) {
@@ -16,11 +17,13 @@ class App extends Component {
       description: "",
       status: "",
       email: "",
+      id: "",
       error: "",
       isError: false,
+      showModal: false,
     };
   }
-//******************************* GET *************************************
+  //******************************* GET *************************************
   componentDidMount = () => {
     axios.get(`${process.env.REACT_APP_BACKEND_SERVER}/books`).then((res) => {
       this.setState({
@@ -29,13 +32,12 @@ class App extends Component {
     });
   };
 
-//******************************* Post *************************************
+  //******************************* Post *************************************
 
   handleTilte = (e) => {
     this.setState({
       title: e.target.value,
     });
-    console.log(this.state.title);
   };
   handleDes = (e) => {
     this.setState({
@@ -80,7 +82,7 @@ class App extends Component {
       });
   };
 
-//******************************* Delete *************************************
+  //******************************* Delete *************************************
 
   handleDelete = (id) => {
     let bookId = id;
@@ -104,7 +106,57 @@ class App extends Component {
       });
   };
 
-//******************************* Render *************************************
+  //***************************************** Update **********************************
+
+  modalHandle = (title, description, status, email, id) => {
+    this.setState({
+      showModal: true,
+      title: title,
+      description: description,
+      status: status,
+      email: email,
+      id: id,
+    });
+    console.log("works");
+  };
+
+  closeModal = () => {
+    this.setState({
+      showModal: false,
+    });
+  };
+
+  handleUpdate = (e) => {
+    e.preventDefault();
+    let bookId = this.state.id;
+    let config = {
+      method: "PUT",
+      baseURL: process.env.REACT_APP_BACKEND_SERVER,
+      url: `/books/${bookId}`,
+      data: {
+        title: this.state.title,
+        description: this.state.description,
+        status: this.state.status,
+        email: this.state.email,
+      },
+    };
+
+    axios(config)
+      .then((res) => {
+        this.setState({
+          data: res.data,
+        });
+        console.log('respone works')
+      })
+      .catch((error) => {
+        this.setState({
+          error: error,
+          isError: true,
+        });
+      });
+  };
+
+  //******************************* Render *************************************
 
   render() {
     return (
@@ -120,7 +172,27 @@ class App extends Component {
         {this.state.isError && (
           <Alert variant="primary">{this.state.error}</Alert>
         )}
-        <BestBooks data={this.state.data} handleDelete={this.handleDelete} />
+        <BestBooks
+          data={this.state.data}
+          handleDelete={this.handleDelete}
+          modalHandle={this.modalHandle}
+        />
+
+        <UpdateModal
+          showModal={this.state.showModal}
+          closeModal={this.closeModal}
+          title={this.state.title}
+          description={this.state.description}
+          status={this.state.status}
+          email={this.state.email}
+          id={this.state.id}
+          handleUpdate={this.handleUpdate}
+          handleTilte={this.handleTilte}
+          handleDes={this.handleDes}
+          handleMail={this.handleMail}
+          handleStatus={this.handleStatus}
+        />
+
         <Footer />
       </>
     );
