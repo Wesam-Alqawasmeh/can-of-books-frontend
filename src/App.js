@@ -7,6 +7,9 @@ import BookForm from "./components/BookForm";
 import { Alert } from "react-bootstrap";
 import axios from "axios";
 import UpdateModal from "./components/UpdateModal";
+import { withAuth0 } from "@auth0/auth0-react";
+import LoginButton from "./components/LoginButton";
+import LogoutButton from "./components/LogoutButton";
 
 class App extends Component {
   constructor(props) {
@@ -31,6 +34,32 @@ class App extends Component {
       });
     });
   };
+
+  // callApi = () => {
+  //   if (this.props.auth0.isAuthenticated) {
+  //     this.props.auth0
+  //       .getIdTokenClaims()
+  //       .then((res) => {
+  //         const jwt = res.__raw;
+  //         const config = {
+  //           headers: { Authorization: `Bearer ${jwt}` },
+  //           method: "get",
+  //           baseURL: process.env.REACT_APP_BACKEND_SERVER,
+  //           url: "/books",
+  //         };
+  //         axios(config)
+  //           .then((res) =>
+  //             this.setState({
+  //               data: res.data,
+  //             })
+  //           )
+  //           .catch((err) => console.error(err));
+  //       })
+  //       .catch((err) => console.error(err));
+  //   } else {
+  //     console.log("user is not authenticated");
+  //   }
+  // }
 
   //******************************* Post *************************************
 
@@ -161,36 +190,43 @@ class App extends Component {
     return (
       <>
         <Header />
-        <BookForm
-          handleTilte={this.handleTilte}
-          handleDes={this.handleDes}
-          handleMail={this.handleMail}
-          handleStatus={this.handleStatus}
-          handleSubmit={this.handleSubmit}
-        />
-        {this.state.isError && (
-          <Alert variant="primary">{this.state.error}</Alert>
-        )}
-        <BestBooks
-          data={this.state.data}
-          handleDelete={this.handleDelete}
-          modalHandle={this.modalHandle}
-        />
+        {this.props.auth0.isAuthenticated ? (
+          <>
+            <LogoutButton />
+            <BookForm
+              handleTilte={this.handleTilte}
+              handleDes={this.handleDes}
+              handleMail={this.handleMail}
+              handleStatus={this.handleStatus}
+              handleSubmit={this.handleSubmit}
+            />
+            {this.state.isError && (
+              <Alert variant="primary">{this.state.error}</Alert>
+            )}
+            <BestBooks
+              data={this.state.data}
+              handleDelete={this.handleDelete}
+              modalHandle={this.modalHandle}
+            />
 
-        <UpdateModal
-          showModal={this.state.showModal}
-          closeModal={this.closeModal}
-          title={this.state.title}
-          description={this.state.description}
-          status={this.state.status}
-          email={this.state.email}
-          id={this.state.id}
-          handleUpdate={this.handleUpdate}
-          handleTilte={this.handleTilte}
-          handleDes={this.handleDes}
-          handleMail={this.handleMail}
-          handleStatus={this.handleStatus}
-        />
+            <UpdateModal
+              showModal={this.state.showModal}
+              closeModal={this.closeModal}
+              title={this.state.title}
+              description={this.state.description}
+              status={this.state.status}
+              email={this.state.email}
+              id={this.state.id}
+              handleUpdate={this.handleUpdate}
+              handleTilte={this.handleTilte}
+              handleDes={this.handleDes}
+              handleMail={this.handleMail}
+              handleStatus={this.handleStatus}
+            />
+          </>
+        ) : (
+          <LoginButton />
+        )}
 
         <Footer />
       </>
@@ -198,4 +234,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withAuth0(App);
