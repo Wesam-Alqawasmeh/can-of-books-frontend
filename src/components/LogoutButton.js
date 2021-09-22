@@ -13,9 +13,6 @@ const LogoutButton = () => {
         height: "50px",
         width: "150px",
         fontWeight: "bold",
-        position:"relative",
-        bottom:"75px",
-        left:"35px"
       }}
     >
       Log Out
