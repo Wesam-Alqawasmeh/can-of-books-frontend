@@ -17,10 +17,10 @@ class App extends Component {
     super(props);
     this.state = {
       data: [],
-      title: "",
       name: "",
       profile_email: "",
       img_src: "",
+      title: "",
       description: "",
       status: "",
       email: "",
