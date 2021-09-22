@@ -10,7 +10,6 @@ import UpdateModal from "./components/UpdateModal";
 import { withAuth0 } from "@auth0/auth0-react";
 import LoginButton from "./components/LoginButton";
 import LogoutButton from "./components/LogoutButton";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Profile from "./components/Profile";
 
 class App extends Component {
