@@ -1,4 +1,4 @@
-import React, { Component} from "react";
+import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import BestBooks from "./components/BestBooks";
 import Header from "./components/Header";
@@ -19,9 +19,9 @@ class App extends Component {
     this.state = {
       data: [],
       title: "",
-      name:"",
-      profile_email:"",
-      src:"",
+      name: "",
+      profile_email: "",
+      img_src: "",
       description: "",
       status: "",
       email: "",
@@ -29,6 +29,7 @@ class App extends Component {
       error: "",
       isError: false,
       showModal: false,
+      profileShowModal: false,
     };
   }
   //******************************* GET *************************************
@@ -37,17 +38,8 @@ class App extends Component {
       this.setState({
         data: res.data,
       });
-      
     });
   };
-
-  callApi = () => {
-      this.setState({
-         name : this.props.auth0.user.name,
-         profile_email:this.props.auth0.user.email,
-         src: this.props.auth0.user.picture
-      })
-  }
 
   //******************************* Post *************************************
 
@@ -140,6 +132,7 @@ class App extends Component {
   closeModal = () => {
     this.setState({
       showModal: false,
+      profileShowModal: false,
     });
   };
 
@@ -172,80 +165,102 @@ class App extends Component {
       });
   };
 
+  //******************************* Profile Modal *************************************
+
+  profileModalHandle = (name, email, src) => {
+    this.setState({
+      name: name,
+      profile_email: email,
+      img_src: src,
+      profileShowModal: true,
+    });
+  };
+
   //******************************* Render *************************************
 
   render() {
     return (
       <>
         <Header />
-        <Router>
+        {/* <Router>
           <Switch>
-            <Route exact path="/">
-              {this.props.auth0.isAuthenticated ? 
-              
-              (
-                <>
-                 
-                  {/* {()=>this.callApi} */}
-                 
-                  <div style ={{
-                    position:"relative",
-                    left:"35px",
-                    bottom:"80px"
-                  }}>
-                    <LogoutButton />
-                    <Button
-                      href="/profile"
-                      variant="warning"
-                      style={{
-                        height: "50px",
-                        width: "150px",
-                        fontWeight: "bold",
-                        marginLeft:"10px"
-                      }}
-                    >Profile</Button>
-                  </div>
-                  <BookForm
-                    handleTilte={this.handleTilte}
-                    handleDes={this.handleDes}
-                    handleMail={this.handleMail}
-                    handleStatus={this.handleStatus}
-                    handleSubmit={this.handleSubmit}
-                  />
-                  {this.state.isError && (
-                    <Alert variant="primary">{this.state.error}</Alert>
-                  )}
-                  <BestBooks
-                    data={this.state.data}
-                    handleDelete={this.handleDelete}
-                    modalHandle={this.modalHandle}
-                  />
+            <Route exact path="/"> */}
+        {this.props.auth0.isAuthenticated ? (
+          <>
+            <div
+              style={{
+                position: "relative",
+                left: "35px",
+                bottom: "80px",
+              }}
+            >
+              <LogoutButton />
+              <Button
+                onClick={() => {
+                  this.profileModalHandle(
+                    `${this.props.auth0.user.name}`,
+                    `${this.props.auth0.user.email}`,
+                    `${this.props.auth0.user.picture}`
+                  );
+                }}
+                variant="warning"
+                style={{
+                  height: "50px",
+                  width: "150px",
+                  fontWeight: "bold",
+                  marginLeft: "10px",
+                }}
+              >
+                Profile
+              </Button>
+              <Profile
+                name={this.state.name}
+                email={this.state.profile_email}
+                src={this.state.img_src}
+                profileShowModal={this.state.profileShowModal}
+                closeModal={this.closeModal}
+              />
+            </div>
+            <BookForm
+              handleTilte={this.handleTilte}
+              handleDes={this.handleDes}
+              handleMail={this.handleMail}
+              handleStatus={this.handleStatus}
+              handleSubmit={this.handleSubmit}
+            />
+            {this.state.isError && (
+              <Alert variant="primary">{this.state.error}</Alert>
+            )}
+            <BestBooks
+              data={this.state.data}
+              handleDelete={this.handleDelete}
+              modalHandle={this.modalHandle}
+            />
 
-                  <UpdateModal
-                    showModal={this.state.showModal}
-                    closeModal={this.closeModal}
-                    title={this.state.title}
-                    description={this.state.description}
-                    status={this.state.status}
-                    email={this.state.email}
-                    id={this.state.id}
-                    handleUpdate={this.handleUpdate}
-                    handleTilte={this.handleTilte}
-                    handleDes={this.handleDes}
-                    handleMail={this.handleMail}
-                    handleStatus={this.handleStatus}
-                  />
-                 
-                </>
-              ) : (
-                <LoginButton />
-              )}
-            </Route>
-            <Route path="/profile">
-              <Profile name ={this.state.name} callApi = {this.callApi}/>
-            </Route>
+            <UpdateModal
+              showModal={this.state.showModal}
+              closeModal={this.closeModal}
+              title={this.state.title}
+              description={this.state.description}
+              status={this.state.status}
+              email={this.state.email}
+              id={this.state.id}
+              handleUpdate={this.handleUpdate}
+              handleTilte={this.handleTilte}
+              handleDes={this.handleDes}
+              handleMail={this.handleMail}
+              handleStatus={this.handleStatus}
+            />
+          </>
+        ) : (
+          <LoginButton />
+        )}
+        {/* </Route>
+            <Route path="/profile"> */}
+
+        {/* </Route>
           </Switch>
-        </Router>
+        </Router> */}
 
         <Footer />
       </>
