@@ -1,15 +1,17 @@
-import React, { Component } from "react";
+import React, { Component} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import BestBooks from "./components/BestBooks";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import BookForm from "./components/BookForm";
-import { Alert } from "react-bootstrap";
+import { Alert, Button } from "react-bootstrap";
 import axios from "axios";
 import UpdateModal from "./components/UpdateModal";
 import { withAuth0 } from "@auth0/auth0-react";
 import LoginButton from "./components/LoginButton";
 import LogoutButton from "./components/LogoutButton";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Profile from "./components/Profile";
 
 class App extends Component {
   constructor(props) {
@@ -17,6 +19,9 @@ class App extends Component {
     this.state = {
       data: [],
       title: "",
+      name:"",
+      profile_email:"",
+      src:"",
       description: "",
       status: "",
       email: "",
@@ -32,34 +37,17 @@ class App extends Component {
       this.setState({
         data: res.data,
       });
+      
     });
   };
 
-  // callApi = () => {
-  //   if (this.props.auth0.isAuthenticated) {
-  //     this.props.auth0
-  //       .getIdTokenClaims()
-  //       .then((res) => {
-  //         const jwt = res.__raw;
-  //         const config = {
-  //           headers: { Authorization: `Bearer ${jwt}` },
-  //           method: "get",
-  //           baseURL: process.env.REACT_APP_BACKEND_SERVER,
-  //           url: "/books",
-  //         };
-  //         axios(config)
-  //           .then((res) =>
-  //             this.setState({
-  //               data: res.data,
-  //             })
-  //           )
-  //           .catch((err) => console.error(err));
-  //       })
-  //       .catch((err) => console.error(err));
-  //   } else {
-  //     console.log("user is not authenticated");
-  //   }
-  // }
+  callApi = () => {
+      this.setState({
+         name : this.props.auth0.user.name,
+         profile_email:this.props.auth0.user.email,
+         src: this.props.auth0.user.picture
+      })
+  }
 
   //******************************* Post *************************************
 
@@ -190,43 +178,74 @@ class App extends Component {
     return (
       <>
         <Header />
-        {this.props.auth0.isAuthenticated ? (
-          <>
-            <LogoutButton />
-            <BookForm
-              handleTilte={this.handleTilte}
-              handleDes={this.handleDes}
-              handleMail={this.handleMail}
-              handleStatus={this.handleStatus}
-              handleSubmit={this.handleSubmit}
-            />
-            {this.state.isError && (
-              <Alert variant="primary">{this.state.error}</Alert>
-            )}
-            <BestBooks
-              data={this.state.data}
-              handleDelete={this.handleDelete}
-              modalHandle={this.modalHandle}
-            />
+        <Router>
+          <Switch>
+            <Route exact path="/">
+              {this.props.auth0.isAuthenticated ? 
+              
+              (
+                <>
+                 
+                  {/* {()=>this.callApi} */}
+                 
+                  <div style ={{
+                    position:"relative",
+                    left:"35px",
+                    bottom:"80px"
+                  }}>
+                    <LogoutButton />
+                    <Button
+                      href="/profile"
+                      variant="warning"
+                      style={{
+                        height: "50px",
+                        width: "150px",
+                        fontWeight: "bold",
+                        marginLeft:"10px"
+                      }}
+                    >Profile</Button>
+                  </div>
+                  <BookForm
+                    handleTilte={this.handleTilte}
+                    handleDes={this.handleDes}
+                    handleMail={this.handleMail}
+                    handleStatus={this.handleStatus}
+                    handleSubmit={this.handleSubmit}
+                  />
+                  {this.state.isError && (
+                    <Alert variant="primary">{this.state.error}</Alert>
+                  )}
+                  <BestBooks
+                    data={this.state.data}
+                    handleDelete={this.handleDelete}
+                    modalHandle={this.modalHandle}
+                  />
 
-            <UpdateModal
-              showModal={this.state.showModal}
-              closeModal={this.closeModal}
-              title={this.state.title}
-              description={this.state.description}
-              status={this.state.status}
-              email={this.state.email}
-              id={this.state.id}
-              handleUpdate={this.handleUpdate}
-              handleTilte={this.handleTilte}
-              handleDes={this.handleDes}
-              handleMail={this.handleMail}
-              handleStatus={this.handleStatus}
-            />
-          </>
-        ) : (
-          <LoginButton />
-        )}
+                  <UpdateModal
+                    showModal={this.state.showModal}
+                    closeModal={this.closeModal}
+                    title={this.state.title}
+                    description={this.state.description}
+                    status={this.state.status}
+                    email={this.state.email}
+                    id={this.state.id}
+                    handleUpdate={this.handleUpdate}
+                    handleTilte={this.handleTilte}
+                    handleDes={this.handleDes}
+                    handleMail={this.handleMail}
+                    handleStatus={this.handleStatus}
+                  />
+                 
+                </>
+              ) : (
+                <LoginButton />
+              )}
+            </Route>
+            <Route path="/profile">
+              <Profile name ={this.state.name} callApi = {this.callApi}/>
+            </Route>
+          </Switch>
+        </Router>
 
         <Footer />
       </>
